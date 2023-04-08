@@ -2,20 +2,35 @@ package com.example.springboot.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.io.Serializable;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@TableName(value = "department")
-public class Department {
+/**
+ * <p>
+ * 
+ * </p>
+ *
+ * @author lhc
+ * @since 2023-04-08
+ */
+@Getter
+@Setter
+  @ApiModel(value = "Department对象", description = "")
+public class Department implements Serializable {
 
-    @TableId(value = "deptid",type = IdType.AUTO)
-    private Integer deptid;
+    private static final long serialVersionUID = 1L;
+
+      @TableId(value = "deptid", type = IdType.AUTO)
+      private Integer deptid;
+
     private String deptname;
+
     private String address;
+
     private String phonecode;
 
-// @JsonIgnore  忽略某个字段不展示给前端
+
 }
