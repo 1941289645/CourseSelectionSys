@@ -2,11 +2,12 @@ package com.example.springboot.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -18,7 +19,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-  @ApiModel(value = "Department对象", description = "")
+@ApiModel(value = "Department对象", description = "")
+@ToString
 public class Department implements Serializable {
 
     private static final long serialVersionUID = 1L;
