@@ -1,6 +1,7 @@
 package com.example.springboot.controller;
 
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
@@ -108,7 +109,7 @@ public class DepartmentController {
         //设置浏览器响应格式
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8");
         String fileName= URLEncoder.encode("学院信息","UTF-8");
-        response.setHeader("Content-Disposition","attachment;filename"+fileName+".xlsx");
+        response.setHeader("Content-Disposition","attachment;filename="+fileName+".xlsx");
 
         ServletOutputStream out= response.getOutputStream();
         writer.flush(out,true);
@@ -122,11 +123,25 @@ public class DepartmentController {
      * @throws Exception
      */
     @PostMapping("/import")
-    public void imp(MultipartFile file) throws Exception{
+    public Boolean imp(MultipartFile file) throws Exception{
         InputStream inputStream=file.getInputStream();
         ExcelReader reader=ExcelUtil.getReader(inputStream);
-        List<Department> list=reader.readAll(Department.class);
-        System.out.println(list);
+        //方式1：（推荐）通过javabean的方式读取Excel内的对象，但是要求表头必须是英文，跟javabean的属性要对应起来
+//        List<Department> list=reader.readAll(Department.class);
+
+        //方式2：忽略表头的英文，直接读取表的内容
+        List<List<Object>> list=reader.read(1);
+        List<Department> departments = CollUtil.newArrayList();
+        for (List<Object> row : list) {
+            Department department=new Department();
+            department.setDeptid(Integer.valueOf(row.get(0).toString()));
+            department.setDeptname(row.get(1).toString());
+            department.setAddress(row.get(2).toString());
+            department.setPhonecode(row.get(3).toString());
+            departments.add(department);
+        }
+        departmentService.saveBatch(departments);
+        return true;
     }
 }
 

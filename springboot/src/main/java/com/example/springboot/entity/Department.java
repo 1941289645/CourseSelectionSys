@@ -25,14 +25,13 @@ public class Department implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-      @TableId(value = "deptid", type = IdType.AUTO)
-      private Integer deptid;
+    @TableId(value = "deptid", type = IdType.AUTO)
+    private Integer deptid;
 
     private String deptname;
 
     private String address;
 
     private String phonecode;
-
 
 }
