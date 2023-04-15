@@ -1,5 +1,6 @@
 package com.example.springboot.service;
 
+import com.example.springboot.controller.dto.UserDTO;
 import com.example.springboot.entity.Teacher;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ITeacherService extends IService<Teacher> {
 
+    boolean login(UserDTO userDTO);
 }

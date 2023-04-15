@@ -1,6 +1,8 @@
 package com.example.springboot.controller;
 
 
+import cn.hutool.core.util.StrUtil;
+import com.example.springboot.controller.dto.UserDTO;
 import com.example.springboot.entity.Teacher;
 import com.example.springboot.service.ITeacherService;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,16 @@ public class TeacherController {
 
     @Resource
     private ITeacherService teacherService;
+
+    @PostMapping("/login")
+    public boolean login(@RequestBody UserDTO userDTO){
+        String username= userDTO.getUsername();
+        String password=userDTO.getPassword();
+        if (StrUtil.isBlank(username) || StrUtil.isBlank(password)){
+            return false;
+        }
+        return teacherService.login(userDTO);
+    }
 
     //新增和修改
     @PostMapping
