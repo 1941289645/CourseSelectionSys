@@ -11,7 +11,8 @@ const routes = [
     redirect:"/home",
     children:[
       {path: 'home', name: '首页',component: () => import('../views/Home.vue')},
-      {path: 'department', name: '学院管理', component: () => import('../views/Department.vue')}
+      {path: 'department', name: '学院管理', component: () => import('../views/Department.vue')},
+      {path: 'person', name: '个人信息', component: () => import('../views/Person.vue')},
     ]
   },
   {
@@ -23,6 +24,11 @@ const routes = [
     path:'/login',
     name:'Login',
     component:()=>import('../views/Login.vue')
+  },
+  {
+    path:'/register',
+    name:'Register',
+    component:()=>import('../views/Register.vue')
   }
 ]
 

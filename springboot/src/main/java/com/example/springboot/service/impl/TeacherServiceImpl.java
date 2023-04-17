@@ -1,12 +1,15 @@
 package com.example.springboot.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.log.Log;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.springboot.common.Constants;
 import com.example.springboot.controller.dto.UserDTO;
 import com.example.springboot.entity.Teacher;
+import com.example.springboot.exception.ServiceException;
 import com.example.springboot.mapper.TeacherMapper;
 import com.example.springboot.service.ITeacherService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
@@ -22,16 +25,40 @@ public class TeacherServiceImpl extends ServiceImpl<TeacherMapper, Teacher> impl
 
     private static final Log LOG= Log.get();
     @Override
-    public boolean login(UserDTO userDTO) {
+    public UserDTO login(UserDTO userDTO) {
+        Teacher one = getUserInfo(userDTO);
+        if(one !=null){
+            BeanUtil.copyProperties(one,userDTO,true);
+            return userDTO;
+        }else {
+            throw new ServiceException(Constants.CODE_600,"用户名或密码错误");
+        }
+    }
+
+    @Override
+    public Teacher register(UserDTO userDTO) {
+        Teacher one = getUserInfo(userDTO);
+        if(one==null){
+            one=new Teacher();
+            BeanUtil.copyProperties(userDTO,one,true);
+            save(one);   // 把copy完之后的对象存储到数据库
+        }else{
+            throw new ServiceException(Constants.CODE_600,"用户已存在");
+        }
+        return one;
+    }
+
+    private Teacher getUserInfo(UserDTO userDTO){
         QueryWrapper<Teacher> queryWrapper=new QueryWrapper<>();
         queryWrapper.eq("tusername",userDTO.getUsername());
         queryWrapper.eq("tpassword",userDTO.getPassword());
+        Teacher one;
         try{
-            Teacher one = getOne(queryWrapper);
-            return one!=null;
+            one = getOne(queryWrapper);  //从数据库查询用户信息
         }catch (Exception e){
             LOG.error(e);
-            return false;
+            throw new ServiceException(Constants.CODE_500,"系统错误");
         }
+        return one;
     }
 }

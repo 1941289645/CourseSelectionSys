@@ -1,5 +1,7 @@
 package com.example.springboot.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,8 +23,8 @@ import java.time.LocalDate;
 public class Student implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-      private Integer studentid;
+    @TableId(type = IdType.AUTO)
+    private Integer studentid;
 
     private String name;
 

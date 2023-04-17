@@ -2,6 +2,9 @@ package com.example.springboot.controller;
 
 
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.example.springboot.common.Constants;
+import com.example.springboot.common.Result;
 import com.example.springboot.controller.dto.UserDTO;
 import com.example.springboot.entity.Teacher;
 import com.example.springboot.service.ITeacherService;
@@ -26,13 +29,24 @@ public class TeacherController {
     private ITeacherService teacherService;
 
     @PostMapping("/login")
-    public boolean login(@RequestBody UserDTO userDTO){
+    public Result login(@RequestBody UserDTO userDTO){
         String username= userDTO.getUsername();
         String password=userDTO.getPassword();
         if (StrUtil.isBlank(username) || StrUtil.isBlank(password)){
-            return false;
+            return Result.error(Constants.CODE_400,"参数错误");
         }
-        return teacherService.login(userDTO);
+        UserDTO dto = teacherService.login(userDTO);
+        return Result.success(dto);
+    }
+
+    @PostMapping("/register")
+    public Result register(@RequestBody UserDTO userDTO){//@RequestBody将前台josn对象转换为后台的java对象
+        String username= userDTO.getUsername();
+        String password=userDTO.getPassword();
+        if (StrUtil.isBlank(username) || StrUtil.isBlank(password)){
+            return Result.error(Constants.CODE_400,"参数错误");
+        }
+        return Result.success(teacherService.register(userDTO));
     }
 
     //新增和修改
@@ -63,6 +77,17 @@ public class TeacherController {
     @GetMapping("/{id}")
     public Teacher findeOne(@PathVariable Integer id){
         return teacherService.getById(id);
+    }
+
+    @GetMapping("/id/{id}")
+    public Result findOne(@PathVariable Integer id){
+        QueryWrapper<Teacher> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("Tnumber",id);
+        Teacher teacher = teacherService.getOne(queryWrapper);
+//        String age;
+//        age = String.valueOf(LocalDate.now().getYear()-teacher.getTbirthday().getYear());
+//        teacher.setAge(age);
+        return Result.success(teacher);
     }
 
     //分页查询-mybatis-plus的方式进行
