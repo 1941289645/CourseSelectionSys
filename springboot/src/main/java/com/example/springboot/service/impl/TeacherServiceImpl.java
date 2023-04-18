@@ -10,6 +10,7 @@ import com.example.springboot.entity.Teacher;
 import com.example.springboot.exception.ServiceException;
 import com.example.springboot.mapper.TeacherMapper;
 import com.example.springboot.service.ITeacherService;
+import com.example.springboot.utils.TokenUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -29,6 +30,9 @@ public class TeacherServiceImpl extends ServiceImpl<TeacherMapper, Teacher> impl
         Teacher one = getUserInfo(userDTO);
         if(one !=null){
             BeanUtil.copyProperties(one,userDTO,true);
+            //设置token
+            String token = TokenUtils.genToken(one.getId().toString(), one.getTpassword());
+            userDTO.setToken(token);
             return userDTO;
         }else {
             throw new ServiceException(Constants.CODE_600,"用户名或密码错误");

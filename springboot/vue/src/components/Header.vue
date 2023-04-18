@@ -9,7 +9,7 @@
       </el-breadcrumb>
     </div>
 
-    <el-dropdown style="width: 100px; cursor: pointer;">
+    <el-dropdown style="width: 150px; cursor: pointer; text-align: right">
       <div style="display: inline-block">
         <!--      头像功能，15节内容-->
         <img :src="user.avatarurl" alt="" style="width: 30px;border-radius: 50%;position: relative;top:10px;right:5px">

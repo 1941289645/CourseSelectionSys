@@ -84,9 +84,6 @@ public class TeacherController {
         QueryWrapper<Teacher> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("Tnumber",id);
         Teacher teacher = teacherService.getOne(queryWrapper);
-//        String age;
-//        age = String.valueOf(LocalDate.now().getYear()-teacher.getTbirthday().getYear());
-//        teacher.setAge(age);
         return Result.success(teacher);
     }
 

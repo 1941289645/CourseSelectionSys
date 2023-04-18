@@ -8,7 +8,9 @@ import cn.hutool.poi.excel.ExcelWriter;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.springboot.entity.Department;
+import com.example.springboot.entity.Teacher;
 import com.example.springboot.service.IDepartmentService;
+import com.example.springboot.utils.TokenUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -83,6 +85,10 @@ public class DepartmentController {
             queryWrapper.like("phonecode",phonecode);
         }
         queryWrapper.orderByDesc("deptid");
+
+        //获取当前用户信息
+        Teacher currentUser= TokenUtils.getCurrentUser();
+        System.out.println("获取当前用户信息================="+currentUser.getTname());
         return departmentService.page(new Page<>(pageNum,pageSize),queryWrapper);
     }
 
