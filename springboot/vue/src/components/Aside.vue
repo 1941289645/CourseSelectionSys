@@ -10,7 +10,7 @@
   >
     <div style="height: 60px;line-height: 60px;text-align: center;">
       <img src="../assets/logo.png" alt="" style="width: 20px;position: relative;top:5px;margin-right: 5px;">
-      <b style="color: white;" v-show="!isCollapse">后台管理系统</b>
+      <b style="color: white;" v-show="!isCollapse">选课管理系统</b>
     </div>
 
     <el-menu-item index="/home">
@@ -24,9 +24,9 @@
         <i class="el-icon-menu"></i>
         <span slot="title">系统管理</span>
       </template>
-      <el-menu-item index="/department">
+      <el-menu-item index="/class">
         <i class="el-icon-s-custom"></i>
-        <span slot="title">学院管理</span>
+        <span slot="title">班级管理</span>
       </el-menu-item>
     </el-submenu>
   </el-menu>
